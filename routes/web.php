@@ -11,6 +11,18 @@
 |
 */
 
-$router->get('/', ['uses' => 'BarangController@getAll']);
+$router->get('/', ['uses' => 'BarangController@showAll']);
 
-$router->get('/{id}' [ 'uses' => 'BarangController@getOne' ])
+$router->get('/{id}', [ 'uses' => 'BarangController@showOne' ]);
+
+$router->patch('/{id}', [ 'uses' => 'BarangController@update' ]);
+
+$router->delete('/{id}', [ 'uses' => 'BarangController@delete' ]);
+
+//ambil barang, kurangi stok
+$router->post('/{id}/decrease-stock', [ 'uses' => 'BarangController@decreaseStock' ]);
+
+//tambah stok barang
+$router->post('/{id}/increase-stock', [ 'uses' => 'BarangController@increaseStock' ]);
+
+
