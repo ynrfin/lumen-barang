@@ -15,7 +15,11 @@ $router->get('/', ['uses' => 'BarangController@showAll']);
 
 $router->get('/{id}', [ 'uses' => 'BarangController@showOne' ]);
 
-$router->patch('/{id}', [ 'uses' => 'BarangController@update' ]);
+$router->post('/', ['uses' => 'BarangController@create']);
+
+$router->patch('/{id}', [ 'uses' => 'BarangController@patch' ]);
+
+$router->put('/{id}', [ 'uses' => 'BarangController@put' ]);
 
 $router->delete('/{id}', [ 'uses' => 'BarangController@delete' ]);
 
