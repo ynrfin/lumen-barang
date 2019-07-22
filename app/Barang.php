@@ -13,7 +13,13 @@ class Barang extends Model
      * @var array
      */
     protected $fillable = [
-        'nama', 'deskripsi',
+        'nama',
+        'deskripsi',
+        'kode',
+        'stok',
+        'harga',
+        'nama',
+        'deskripsi'
     ];
 
     /**
@@ -21,7 +27,5 @@ class Barang extends Model
      *
      * @var array
      */
-    protected $hidden = [
-        'password',
-    ];
+    protected $hidden = [ ];
 }
