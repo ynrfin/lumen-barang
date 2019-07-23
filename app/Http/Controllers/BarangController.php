@@ -15,8 +15,9 @@ class BarangController extends Controller
 
     public function showOne($id)
     {
+        BarangResource::withoutWrapping();
+
         return new BarangResource(Barang::findOrFail($id));
-        return response()->json(Barang::findOrFail($id));
     }
 
     public function patch($id, Request $request)
