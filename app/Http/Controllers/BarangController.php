@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Barang;
+use App\Http\Resources\Barang as BarangResource;
 use Illuminate\Http\Request;
 
 class BarangController extends Controller
@@ -14,6 +15,7 @@ class BarangController extends Controller
 
     public function showOne($id)
     {
+        return new BarangResource(Barang::findOrFail($id));
         return response()->json(Barang::findOrFail($id));
     }
 
