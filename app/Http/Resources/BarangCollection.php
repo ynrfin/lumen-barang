@@ -11,7 +11,6 @@ class BarangCollection extends ResourceCollection
     public function toArray($request)
     {
         return [
-            'link' =>route('barang.all'),
             'data' => $this->collection
             //'data' => $this->collection->transform(function($barang){
             //    return [
