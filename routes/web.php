@@ -11,22 +11,22 @@
 |
 */
 
-$router->get('/', ['uses' => 'BarangController@showAll']);
+$router->get('/', ['as' => 'barang.all', 'uses' => 'BarangController@showAll']);
 
-$router->get('/{id}', [ 'uses' => 'BarangController@showOne' ]);
+$router->get('/{id}', ['as'=>'barang.one', 'uses' => 'BarangController@showOne' ]);
 
-$router->post('/', ['uses' => 'BarangController@create']);
+$router->post('/', ['as'=>'barang.create','uses' => 'BarangController@create']);
 
-$router->patch('/{id}', [ 'uses' => 'BarangController@patch' ]);
+$router->patch('/{id}', ['as'=>'barang.patch', 'uses' => 'BarangController@patch' ]);
 
-$router->put('/{id}', [ 'uses' => 'BarangController@put' ]);
+$router->put('/{id}', ['as'=>'barang.put', 'uses' => 'BarangController@put' ]);
 
-$router->delete('/{id}', [ 'uses' => 'BarangController@delete' ]);
+$router->delete('/{id}', ['as'=>'barang.delete', 'uses' => 'BarangController@delete' ]);
 
 //ambil barang, kurangi stok
-$router->post('/{id}/decrease-stock', [ 'uses' => 'BarangController@decreaseStock' ]);
+$router->post('/{id}/decrease-stock', ['as'=>'barang.decrease', 'uses' => 'BarangController@decreaseStock' ]);
 
 //tambah stok barang
-$router->post('/{id}/increase-stock', [ 'uses' => 'BarangController@increaseStock' ]);
+$router->post('/{id}/increase-stock', ['as'=>'barang.increase', 'uses' => 'BarangController@increaseStock' ]);
 
 
