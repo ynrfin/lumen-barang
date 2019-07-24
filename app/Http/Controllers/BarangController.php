@@ -6,6 +6,7 @@ use App\Barang;
 use App\Http\Resources\Barang as BarangResource;
 use App\Http\Resources\BarangCollection as BarangCollection;
 use Illuminate\Http\Request;
+use App\Exceptions\ResourceNotFoundException;
 
 class BarangController extends Controller
 {
@@ -16,7 +17,11 @@ class BarangController extends Controller
 
     public function showOne($id)
     {
-        return new BarangResource(Barang::findOrFail($id));
+        $barang = Barang::findOrFail($id);
+        if(null == $barang){
+            throw new ResourceNotFoundException();
+        }
+        return new BarangResource($barang);
     }
 
     public function patch($id, Request $request)
