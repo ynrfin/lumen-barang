@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Barang;
 use App\Http\Resources\Barang as BarangResource;
+use App\Http\Resources\BarangCollection as BarangCollection;
 use Illuminate\Http\Request;
 
 class BarangController extends Controller
 {
     public function showAll()
     {
-        return response()->json(Barang::all());
+        return new BarangCollection(Barang::all());
     }
 
     public function showOne($id)
