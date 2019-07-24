@@ -11,7 +11,7 @@ class BarangController extends Controller
 {
     public function showAll()
     {
-        return new BarangCollection(Barang::all());
+        return new BarangCollection(Barang::paginate());
     }
 
     public function showOne($id)
