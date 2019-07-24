@@ -33,7 +33,7 @@ class BarangController extends Controller
         $barang->update($request->all());
         $barang->save();
 
-        return response()->json($barang);
+        return new BarangResource($barang);
     }
 
     public function put($id, Request $request)
@@ -50,28 +50,13 @@ class BarangController extends Controller
         $barang->update($request->all());
         $barang->save();
 
-        return response()->json($barang);
+        return new BarangResource($barang);
     }
 
     public function delete($id)
     {
         Barang::find($id)->delete();
-        return response()->json('deleted');
-    }
-
-    public function increaseStock($id, Request $request)
-    {
-        $barang = Barang::findOrFail($id);
-        // get delete stok
-        // $barang->stok = 
-
-        return response()->json('show increaseStock');
-    }
-
-    public function decreaseStock($id, Request $request)
-    {
-        $barang = Barang::find($id);
-        return response()->json('show decreaseStock');
+        return response()->json('{}');
     }
 }
 
