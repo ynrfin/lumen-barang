@@ -23,10 +23,3 @@ $router->put('/{id}', ['as'=>'barang.put', 'uses' => 'BarangController@put' ]);
 
 $router->delete('/{id}', ['as'=>'barang.delete', 'uses' => 'BarangController@delete' ]);
 
-//ambil barang, kurangi stok
-$router->post('/{id}/decrease-stock', ['as'=>'barang.decrease', 'uses' => 'BarangController@decreaseStock' ]);
-
-//tambah stok barang
-$router->post('/{id}/increase-stock', ['as'=>'barang.increase', 'uses' => 'BarangController@increaseStock' ]);
-
-
