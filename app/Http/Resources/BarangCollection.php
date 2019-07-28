@@ -6,12 +6,13 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class BarangCollection extends ResourceCollection
 {
+    //public static $wrap = "results";
     /* Transform resource to array
      */
     public function toArray($request)
     {
         return [
-            'data' => $this->collection
+            $this->collection
             //'data' => $this->collection->transform(function($barang){
             //    return [
             //        'type' => 'barang',
