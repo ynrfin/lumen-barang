@@ -12,5 +12,6 @@ class BarangsTableSeeder extends Seeder
     public function run()
     {
         //
+        factory(App\Barang::class, 50)->create();
     }
 }
