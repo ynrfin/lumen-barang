@@ -21,6 +21,9 @@ class Barang extends JsonResource
                 'stok' => $this->stok,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
+            ],
+            "links" => [
+                "self" => route('barang.one', ['id' => $this->id])
             ]
         ];
     }
