@@ -5,6 +5,8 @@ use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class BarangTest extends TestCase
 {
+    use DatabaseMigrations;
+
     /**
      * Check if get / returns 200
      */
@@ -22,7 +24,8 @@ class BarangTest extends TestCase
      */
     public function testResouceCollectionFormat()
     {
-        $response = $this->get('/', []);
+        $barangs = factory(App\Barang::class, 50)->create();
+        $this->get('/', []);
 
         $this->seeStatusCode('200');
 
@@ -30,7 +33,7 @@ class BarangTest extends TestCase
 
         $this->seeJsonStructure([
             "data" => [
-                [
+                "items" => [
                     [
                         "type",
                         "id",
@@ -42,6 +45,9 @@ class BarangTest extends TestCase
                             "stok",
                             "created_at",
                             "updated_at"
+                        ],
+                        "links" => [
+                            "self"
                         ]
                     ]
                 ],
@@ -69,6 +75,7 @@ class BarangTest extends TestCase
      */
     public function testResourceFormat()
     {
+        $barangs = factory(App\Barang::class, 50)->create();
         $this->get('/3', []);
 
         $this->seeStatusCode('200');
@@ -87,6 +94,9 @@ class BarangTest extends TestCase
                 'created_at',
                 'updated_at',
 
+            ],
+            "links" => [
+                "self"
             ]
 
         ]);
@@ -98,6 +108,7 @@ class BarangTest extends TestCase
      */
     public function testResourceDatatype()
     {
+        $barangs = factory(App\Barang::class, 50)->create();
         $response = $this->get('/3', [])->response->content();
 
 
@@ -116,4 +127,39 @@ class BarangTest extends TestCase
         $this->assertIsString($attr['created_at']);
         $this->assertIsString($attr['updated_at']);
     }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function testShowAllWithRecordDataKeyNotNull()
+    {
+        $barangs = factory(App\Barang::class, 50)->create();
+        $this->json("GET", "/", ['page' => 1], []);
+
+        $response =(array)json_decode($this->response->content());
+        $this->assertArrayHasKey('data', $response);
+        $this->assertArrayHasKey('links', $response);
+        $this->assertArrayHasKey('meta', $response);
+        $this->assertNotEmpty($response["data"]);
+    }
+
+    /**
+     * undocumented function
+     *
+     * @return void
+     */
+    public function testShowAllWithoutRecordDataKeyIsNull()
+    {
+        //$barangs = factory(App\Barang::class, 50)->create();
+        $this->json("GET", "/", ['page' => 1], []);
+
+        $response =(array)json_decode($this->response->content());
+        $this->assertArrayHasKey('data', $response);
+        $this->assertArrayHasKey('links', $response);
+        $this->assertArrayHasKey('meta', $response);
+        $this->assertEmpty($response["data"]->items);
+    }
+
 }
