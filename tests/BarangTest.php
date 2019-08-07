@@ -156,5 +156,13 @@ class BarangTest extends TestCase
         $this->assertEmpty($this->response->getOriginalContent());
         $this->assertResponseStatus(204);
     }
+
+    public function testDeleteNonexistentRecordReturns404NotFound(){
+        factory(App\Barang::class, 5)->create();
+        $this->json("DELETE", "/10");
+
+        $this->assertResponseStatus(404);
+        
+    }
     
 }
