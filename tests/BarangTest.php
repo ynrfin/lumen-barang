@@ -103,9 +103,6 @@ class BarangTest extends TestCase
 
     }
 
-    /**
-     * Check output datatype of get /{id} is correct
-     */
     public function testResourceDatatype()
     {
         $barangs = factory(App\Barang::class, 50)->create();
@@ -128,11 +125,6 @@ class BarangTest extends TestCase
         $this->assertIsString($attr['updated_at']);
     }
 
-    /**
-     * undocumented function
-     *
-     * @return void
-     */
     public function testShowAllWithRecordDataKeyNotNull()
     {
         $barangs = factory(App\Barang::class, 50)->create();
@@ -145,14 +137,8 @@ class BarangTest extends TestCase
         $this->assertNotEmpty($response["data"]);
     }
 
-    /**
-     * undocumented function
-     *
-     * @return void
-     */
     public function testShowAllWithoutRecordDataKeyIsNull()
     {
-        //$barangs = factory(App\Barang::class, 50)->create();
         $this->json("GET", "/", ['page' => 1], []);
 
         $response =(array)json_decode($this->response->content());
@@ -162,4 +148,13 @@ class BarangTest extends TestCase
         $this->assertEmpty($response["data"]->items);
     }
 
+    public function testDeleteExistedRecordReturns204NoContent()
+    {
+        factory(App\Barang::class, 50)->create();
+        $this->json("DELETE", "/5");
+
+        $this->assertEmpty($this->response->getOriginalContent());
+        $this->assertResponseStatus(204);
+    }
+    
 }

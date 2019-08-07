@@ -60,13 +60,10 @@ class BarangController extends Controller
 
     public function delete($id)
     {
-        $barang = Barang::find($id);
-        if(null == $barang){
-            return response()->json('no data', 202);
-        }
+        $barang = Barang::findOrFail($id);
 
         $barang->delete();
-        return response()->json('');
+        return response()->json(null, 204);
     }
 }
 
