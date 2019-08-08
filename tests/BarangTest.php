@@ -24,7 +24,7 @@ class BarangTest extends TestCase
      */
     public function testResouceCollectionFormat()
     {
-        $barangs = factory(App\Barang::class, 50)->create();
+        factory(App\Barang::class, 50)->create();
         $this->get('/', []);
 
         $this->seeStatusCode('200');
@@ -75,7 +75,7 @@ class BarangTest extends TestCase
      */
     public function testResourceFormat()
     {
-        $barangs = factory(App\Barang::class, 50)->create();
+        factory(App\Barang::class, 50)->create();
         $this->get('/3', []);
 
         $this->seeStatusCode('200');
@@ -105,7 +105,7 @@ class BarangTest extends TestCase
 
     public function testResourceDatatype()
     {
-        $barangs = factory(App\Barang::class, 50)->create();
+        factory(App\Barang::class, 50)->create();
         $response = $this->get('/3', [])->response->content();
 
 
@@ -127,7 +127,7 @@ class BarangTest extends TestCase
 
     public function testShowAllWithRecordDataKeyNotNull()
     {
-        $barangs = factory(App\Barang::class, 50)->create();
+        factory(App\Barang::class, 50)->create();
         $this->json("GET", "/", ['page' => 1], []);
 
         $response =(array)json_decode($this->response->content());
@@ -164,5 +164,25 @@ class BarangTest extends TestCase
         $this->assertResponseStatus(404);
         
     }
-    
+
+    public function testCreateNewRecordReturns201AndTheNewResource()
+    {
+        $this->json("POST", '/', [
+			"nama" => "Barang Baru",
+			"stok" => 5,
+			"harga" => 5000,
+			"deskripsi" => "barang baru untuk insert via postman",
+			"kode" => "SKU-4421"
+        ]);
+
+		$this->assertResponseStatus(201);
+		$this->seeInDatabase("barangs", [
+			"nama" => "Barang Baru",
+			"stok" => 5,
+			"harga" => 5000,
+			"deskripsi" => "barang baru untuk insert via postman",
+			"kode" => "SKU-4421"
+
+        ]);
+    }
 }
