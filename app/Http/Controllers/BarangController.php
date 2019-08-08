@@ -24,6 +24,20 @@ class BarangController extends Controller
         return new BarangResource($barang);
     }
 
+    public function create(Request $request)
+    {
+        $validated = $this->validate($request, [
+            'kode' => 'required|string',
+            'stok' => 'required|integer|min:0',
+            'harga' => 'required|integer|min:0',
+            'nama' => 'required|string',
+            'deskripsi' => 'required|string'
+        ]);
+
+        $barang = Barang::updateOrCreate($validated);
+        return new BarangResource($barang);
+    }
+
     public function patch($id, Request $request)
     {
         $this->validate($request, [
