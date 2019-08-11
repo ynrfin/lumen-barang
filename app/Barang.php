@@ -28,4 +28,15 @@ class Barang extends Model
      * @var array
      */
     protected $hidden = [ ];
+
+    /**
+     * Get category object for this particular Barang object
+     *
+     * @return Category
+     */
+    public function category()
+    {
+        return $this->belongsTo('App\Category', 'id_categories');
+    }
+
 }
