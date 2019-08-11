@@ -23,3 +23,10 @@ $router->put('/{id}', ['as'=>'barang.put', 'uses' => 'BarangController@put' ]);
 
 $router->delete('/{id}', ['as'=>'barang.delete', 'uses' => 'BarangController@delete' ]);
 
+$router->group(['prefix' => 'category'], function () use ($router){
+    $router->get('/{id}', ['as' => 'category.showOne', 'uses' => 'CategoryController@showOne']);
+
+    //$router->get('/', ['as' => 'category.showAll', 'uses' => 'CategoryController@showAll']);
+
+});
+
