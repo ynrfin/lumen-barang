@@ -33,7 +33,6 @@ class BarangTest extends TestCase
 
         $this->seeJsonStructure([
             "data" => [
-                "items" => [
                     [
                         "type",
                         "id",
@@ -50,7 +49,6 @@ class BarangTest extends TestCase
                             "self"
                         ]
                     ]
-                ],
             ],
             "links" => [
                 "first",
@@ -145,7 +143,7 @@ class BarangTest extends TestCase
         $this->assertArrayHasKey('data', $response);
         $this->assertArrayHasKey('links', $response);
         $this->assertArrayHasKey('meta', $response);
-        $this->assertEmpty($response["data"]->items);
+        $this->assertEmpty($response["data"]);
     }
 
     public function testDeleteExistedRecordReturns204NoContent()
@@ -185,4 +183,13 @@ class BarangTest extends TestCase
 
         ]);
     }
+
+    public function testCreateWithEmptyParamsReturn422UnprocessableEntity()
+    {
+        $this->json("POST", '/', [ ]);
+
+        // Unprocessable Entity
+		$this->assertResponseStatus(422);
+    }
+    
 }
