@@ -192,4 +192,27 @@ class BarangTest extends TestCase
 		$this->assertResponseStatus(422);
     }
     
+    public function testCreateNewRecordWithIncompleteDataReturn422UnprocessableEntity()
+    {
+        $this->json("POST", '/', [
+			"nama" => "Barang Baru",
+			"stok" => 5,
+			"harga" => 5000,
+			"deskripsi" => "barang baru untuk insert via postman",
+        ]);
+
+		$this->assertResponseStatus(422);
+        $this->assertContains("kode field is required");
+    }
+
+    public function testPutWithEmptyDataReturns422()
+    {
+        $this->json("PATCH", '/', [ ]);
+
+        dd($this->response->getOriginalContent());
+
+        // Unprocessable Entity
+		$this->assertResponseStatus(422);
+    }
+
 }
