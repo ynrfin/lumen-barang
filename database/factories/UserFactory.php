@@ -11,11 +11,13 @@
 |
 */
 
+use Illuminate\Support\Facades\Hash;
+
 $factory->define(App\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->companyEmail,
-        'password' => $faker->swiftBicNumber,
+        'password' => Hash::make('12345'),
         'created_at' => $faker->dateTime,
         'updated_at' => $faker->dateTime,
     ];
