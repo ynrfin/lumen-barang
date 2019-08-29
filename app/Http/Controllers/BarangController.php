@@ -41,11 +41,11 @@ class BarangController extends Controller
     public function patch($id, Request $request)
     {
         $this->validate($request, [
-            'kode' => 'string',
-            'stok' => 'integer|min:0',
-            'harga' => 'integer|min:0',
-            'nama' => 'string',
-            'deskripsi' => 'string'
+            'kode' => 'required_without_all:stok,harga,nama,deskripsi|string',
+            'stok' => 'required_without_all:kode,harga,nama,deskripsi|integer|min:0',
+            'harga' => 'required_without_all:kode,stok,nama,deskripsi|integer|min:0',
+            'nama' => 'required_without_all:kode,stok,harga,deskripsi|string',
+            'deskripsi' => 'required_without_all:kode,stok,harga,nama|string'
         ]);
 
         $barang = Barang::findOrFail($id);
