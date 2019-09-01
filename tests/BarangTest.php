@@ -213,6 +213,32 @@ class BarangTest extends TestCase
 		$this->assertResponseStatus(422);
     }
 
+    public function testPatchExisingRecordReturnsUpdatedResource()
+    {
+        factory(App\Barang::class, 5)->create();
+        $this->json("PATCH", '/3', [
+            'nama' => 'andi'
+        ])->seeJson([
+            'nama' => 'andi'
+        ]);
+
+		$this->seeInDatabase("barangs", [
+            "id" => '3',
+			"nama" => "andi",
+        ]);
+		$this->assertResponseStatus(200);
+    }
+
+    public function testPatchNonexistentWithVaidatedBodyRecordReturns404()
+    {
+        factory(App\Barang::class, 5)->create();
+        $this->json("PATCH", '/30', [
+            'nama' => 'andi'
+        ]);
+        // Unprocessable Entity
+		$this->assertResponseStatus(404);
+    }
+
     public function testPutCompleteParamsDatabaseRecordIsUpdated()
     {
         factory(App\Barang::class, 5)->create();
@@ -259,6 +285,16 @@ class BarangTest extends TestCase
     {
         factory(App\Barang::class, 5)->create();
         $this->json("PUT", '/2', [
+			"nama" => "Barang Baru",
+			"deskripsi" => "barang baru untuk insert via postman",
+			"kode" => "SKU-4421"
+        ])->assertResponseStatus(422);
+    }
+
+    public function testPutNonexistentRecordWithIncompleteBodyReturns422()
+    {
+        factory(App\Barang::class, 5)->create();
+        $this->json("PUT", '/20', [
 			"nama" => "Barang Baru",
 			"deskripsi" => "barang baru untuk insert via postman",
 			"kode" => "SKU-4421"
