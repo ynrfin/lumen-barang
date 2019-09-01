@@ -194,25 +194,74 @@ class BarangTest extends TestCase
     
     public function testCreateNewRecordWithIncompleteDataReturn422UnprocessableEntity()
     {
-        $this->json("POST", '/', [
+        $response = $this->json("POST", '/', [
 			"nama" => "Barang Baru",
 			"stok" => 5,
 			"harga" => 5000,
 			"deskripsi" => "barang baru untuk insert via postman",
         ]);
+        $this->assertContains('kode field is required', $this->response->content());
 
 		$this->assertResponseStatus(422);
-        $this->assertContains("kode field is required");
     }
 
-    public function testPutWithEmptyDataReturns422()
+    public function testPatchWithEmptyDataReturns422()
     {
-        $this->json("PATCH", '/', [ ]);
-
-        dd($this->response->getOriginalContent());
-
+        factory(App\Barang::class, 5)->create();
+        $this->json("PATCH", '/3', [ ]);
         // Unprocessable Entity
 		$this->assertResponseStatus(422);
     }
 
+    public function testPutCompleteParamsDatabaseRecordIsUpdated()
+    {
+        factory(App\Barang::class, 5)->create();
+        $this->json("PUT", '/2', [
+			"nama" => "Barang Baru",
+			"stok" => 5,
+			"harga" => 5000,
+			"deskripsi" => "barang baru untuk insert via postman",
+			"kode" => "SKU-4421"
+        ]);
+
+		$this->assertResponseStatus(200);
+		$this->seeInDatabase("barangs", [
+			"nama" => "Barang Baru",
+			"stok" => 5,
+			"harga" => 5000,
+			"deskripsi" => "barang baru untuk insert via postman",
+			"kode" => "SKU-4421"
+
+        ]);
+    }
+
+    public function testPutCompleteParamsResponseContainsInsertedFields()
+    {
+        factory(App\Barang::class, 5)->create();
+        $this->json("PUT", '/2', [
+			"nama" => "Barang Baru",
+			"stok" => 5,
+			"harga" => 5000,
+			"deskripsi" => "barang baru untuk insert via postman",
+			"kode" => "SKU-4421"
+        ])->seeJson([
+			"nama" => "Barang Baru",
+			"stok" => 5,
+			"harga" => 5000,
+			"deskripsi" => "barang baru untuk insert via postman",
+			"kode" => "SKU-4421"
+        ]);
+
+		$this->assertResponseStatus(200);
+    }
+
+    public function testPutIncompleteParamsResponse422UnprocessableEntity()
+    {
+        factory(App\Barang::class, 5)->create();
+        $this->json("PUT", '/2', [
+			"nama" => "Barang Baru",
+			"deskripsi" => "barang baru untuk insert via postman",
+			"kode" => "SKU-4421"
+        ])->assertResponseStatus(422);
+    }
 }
