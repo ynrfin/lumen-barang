@@ -40,16 +40,16 @@ class BarangController extends Controller
 
     public function patch($id, Request $request)
     {
-        $this->validate($request, [
+        $validated = $this->validate($request, [
             'kode' => 'required_without_all:stok,harga,nama,deskripsi|string',
             'stok' => 'required_without_all:kode,harga,nama,deskripsi|integer|min:0',
             'harga' => 'required_without_all:kode,stok,nama,deskripsi|integer|min:0',
             'nama' => 'required_without_all:kode,stok,harga,deskripsi|string',
             'deskripsi' => 'required_without_all:kode,stok,harga,nama|string'
         ]);
-
         $barang = Barang::findOrFail($id);
-        $barang->update($request->all());
+
+        $barang->update($validated);
         $barang->save();
 
         return new BarangResource($barang);
@@ -57,16 +57,16 @@ class BarangController extends Controller
 
     public function put($id, Request $request)
     {
-        $this->validate($request, [
+        $validated = $this->validate($request, [
             'kode' => 'required|string',
             'stok' => 'required|integer|min:0',
             'harga' => 'required|integer|min:0',
             'nama' => 'required|string',
             'deskripsi' => 'required|string'
         ]);
-
         $barang = Barang::findOrFail($id);
-        $barang->update($request->all());
+
+        $barang->update($validated);
         $barang->save();
 
         return new BarangResource($barang);
