@@ -17,7 +17,7 @@ class CategoryTransformer extends TransformerAbstract
                 'name' => $category->name,
                 'created_at' => $category->created_at,
                 'updated_at' => $category->updated_at,
-                "related" => $category->barangs
+                // "related" => $category->barangs
             ],
             "links" => [
                 "self" => route('barang.one', ['id' => $category->id])
