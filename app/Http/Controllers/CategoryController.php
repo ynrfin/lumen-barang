@@ -7,12 +7,22 @@ use App\Http\Resources\Category as CategoryResource;
 use App\Http\Resources\CategoryCollection as CategoryCollection;
 use Illuminate\Http\Request;
 use App\Exceptions\ResourceNotFoundException;
+use Spatie\Fractalistic\Fractal;
+use League\Fractal\Pagination\IlluminatePaginatorAdapter;
+use App\Transformers\CategoryTransformer;
 
 class CategoryController extends Controller
 {
     public function showAll()
     {
-        return new CategoryCollection(Category::paginate());
+        // return new CategoryCollection(Category::paginate());
+        $barang = Category::all();
+
+        return Fractal::create()
+            ->collection($barang)
+            ->transformWith(new CategoryTransformer())
+            ->paginateWith(new IlluminatePaginatorAdapter(Category::paginate()))
+            ->toArray();
     }
 
     public function showOne($id)
@@ -21,7 +31,7 @@ class CategoryController extends Controller
         if(null == $barang){
             throw new ResourceNotFoundException();
         }
-        return new CategoryResource($barang);
+        return fractal($barang)->transformWith(new CategoryTransformer())->toArray();
     }
 
 //    public function create(Request $request)
